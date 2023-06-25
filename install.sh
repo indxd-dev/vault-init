@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Define Vault version
-VAULT_VERSION="1.8.0"
-
 # Detect the OS
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     echo "Detected OS is Ubuntu/Debian"
