@@ -9,20 +9,6 @@ VAULT_ADDR=${VAULT_ADDR}:8200
 read -p 'Enter VAULT_ROOT_TOKEN: ' input_VAULT_TOKEN
 VAULT_TOKEN=${input_VAULT_TOKEN:-$VAULT_TOKEN}
 
-read -p 'Enter AUTH0_CLIENT_ID: ' input_AUTH0_CLIENT_ID
-AUTH0_CLIENT_ID=${input_AUTH0_CLIENT_ID:-$AUTH0_CLIENT_ID}
-if [ -z "$AUTH0_CLIENT_ID" ]; then
-    echo "AUTH0_CLIENT_ID is not set. Exiting."
-    exit 1
-fi
-
-read -p 'Enter AUTH0_CLIENT_SECRET: ' input_AUTH0_CLIENT_SECRET
-AUTH0_CLIENT_SECRET=${input_AUTH0_CLIENT_SECRET:-$AUTH0_CLIENT_SECRET}
-if [ -z "$AUTH0_CLIENT_SECRET" ]; then
-    echo "AUTH0_CLIENT_SECRET is not set. Exiting."
-    exit 1
-fi
-
 read -p 'Enter AUTH0_DOMAIN: ' input_AUTH0_DOMAIN
 AUTH0_DOMAIN=${input_AUTH0_DOMAIN:-$AUTH0_DOMAIN}
 if [ -z "$AUTH0_DOMAIN" ]; then
@@ -30,14 +16,21 @@ if [ -z "$AUTH0_DOMAIN" ]; then
     exit 1
 fi
 
+read -p 'Enter AUTH0_CLIENT_ID: ' input_AUTH0_CLIENT_ID
+AUTH0_CLIENT_ID=${input_AUTH0_CLIENT_ID:-$AUTH0_CLIENT_ID}
+if [ -z "$AUTH0_CLIENT_ID" ]; then
+    echo "AUTH0_CLIENT_ID is not set. Exiting."
+    exit 1
+fi
+
+
 export VAULT_ADDR=$VAULT_ADDR
 export VAULT_OIDC_CALLBACK_ADDR=$VAULT_OIDC_CALLBACK_ADDR
 export VAULT_TOKEN=$VAULT_TOKEN
 export VAULT_NAMESPACE=admin
 
-export AUTH0_CLIENT_ID=$AUTH0_CLIENT_ID
-export AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET
 export AUTH0_DOMAIN=$AUTH0_DOMAIN
+export AUTH0_CLIENT_ID=$AUTH0_CLIENT_ID
 
 vault auth disable oidc
 vault auth disable jwt
@@ -75,3 +68,4 @@ vault write auth/jwt/role/ammonuser \
     token_explicit_max_ttl=60 \
     user_claim="sub"
 
+vault secrets enable -version=2 -path=secrets kv
