@@ -45,7 +45,7 @@ vault auth enable jwt
 
 vault write auth/jwt/config \
     oidc_discovery_url="https://$AUTH0_DOMAIN/" \
-    default_role="api_user" \
+    default_role="ammonuser" \
     bound_issuer="https://$AUTH0_DOMAIN/"
 
 JWT_ACCESSOR=$(vault auth list -format=json | jq -r '.["jwt/"].accessor')
@@ -65,7 +65,7 @@ vault policy write user-policy user-policy.hcl
 
 rm user-policy.hcl
 
-vault write auth/jwt/role/api_user \
+vault write auth/jwt/role/ammonuser \
     bound_audiences="$AUTH0_CLIENT_ID" \
     allowed_redirect_uris="$VAULT_ADDR/ui/vault/auth/oidc/oidc/callback" \
     allowed_redirect_uris="$VAULT_OIDC_CALLBACK_ADDR/oidc/callback" \
