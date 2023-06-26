@@ -71,5 +71,6 @@ vault write auth/jwt/role/api_user \
     policies="default,user-policy"\
     bound_issuer="https://$AUTH0_DOMAIN/" \
     role_type=jwt \
+    token_explicit_max_ttl=60 \
     user_claim="sub"
 
