@@ -33,6 +33,7 @@ fi
 export VAULT_ADDR=$VAULT_ADDR
 export VAULT_OIDC_CALLBACK_ADDR=$VAULT_OIDC_CALLBACK_ADDR
 export VAULT_TOKEN=$VAULT_TOKEN
+export VAULT_NAMESPACE=admin
 
 export AUTH0_CLIENT_ID=$AUTH0_CLIENT_ID
 export AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET
@@ -68,7 +69,7 @@ vault write auth/jwt/role/api_user \
     bound_audiences="$AUTH0_CLIENT_ID" \
     allowed_redirect_uris="$VAULT_ADDR/ui/vault/auth/oidc/oidc/callback" \
     allowed_redirect_uris="$VAULT_OIDC_CALLBACK_ADDR/oidc/callback" \
-    policies="default,user-policy"\
+    policies="user-policy"\
     bound_issuer="https://$AUTH0_DOMAIN/" \
     role_type=jwt \
     token_explicit_max_ttl=60 \
